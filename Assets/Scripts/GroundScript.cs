@@ -12,13 +12,16 @@ public class GroundScript : MonoBehaviour
 	public float heightDisplacement = 0;
 
 	// Private variables :
-	Mesh	mesh;
-	float	lastHeightDisplacement;
+	Mesh			mesh;
+	ComputeShader	grassCS;
+	float			lastHeightDisplacement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mesh = GetComponent<MeshFilter>().mesh;
+        mesh = GetComponent<MeshFilter>().sharedMesh; // Use sharedMesh to avoid creating a new mesh instance
+		grassCS = GetComponent<ComputeShader>();
+		
 		lastHeightDisplacement = heightDisplacement;
 		ChangeGround();
     }
@@ -30,6 +33,11 @@ public class GroundScript : MonoBehaviour
 		if (lastHeightDisplacement != heightDisplacement) {
 			lastHeightDisplacement =  heightDisplacement;
 			ChangeGround();
+		}
+
+		// Grass shader update
+		if (!Application.isPlaying) {
+			// Todo : Update grass shader here
 		}
     }
 
